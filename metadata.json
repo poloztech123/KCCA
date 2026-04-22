@@ -1,0 +1,6 @@
+{
+  "name": "KCCA CitizenLink",
+  "description": "Mobile emergency response system for Kampala citizens to report incidents, receive alerts, and access services.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["Mobile Responsive", "Real-time Alerts", "Multimedia Reporting"]
+}

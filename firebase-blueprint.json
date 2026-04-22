@@ -1,0 +1,94 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account details and role-based permissions.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["citizen", "official", "responder"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "lastLocation": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Report": {
+      "title": "Emergency Report",
+      "description": "Citizen-submitted report of an emergency incident.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reporterId": { "type": "string" },
+        "reporterName": { "type": "string" },
+        "type": { "type": "string", "enum": ["accident", "crime", "flooding", "fire", "medical"] },
+        "description": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "address": { "type": "string" }
+          }
+        },
+        "mediaUrls": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["pending", "verified", "responding", "resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "type", "description", "location", "status", "createdAt"]
+    },
+    "Alert": {
+      "title": "Real-time Alert",
+      "description": "Official broadcast for emergency updates.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "category": { "type": "string", "enum": ["weather", "security", "traffic", "health"] },
+        "severity": { "type": "string", "enum": ["low", "medium", "critical"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "category", "severity", "createdAt"]
+    },
+    "Message": {
+      "title": "Report Message",
+      "description": "Chat message between citizen and official regarding a specific report.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "Citizen and official profiles."
+    },
+    "reports": {
+      "schema": "Report",
+      "description": "Incident reports filed by citizens."
+    },
+    "alerts": {
+      "schema": "Alert",
+      "description": "Broadcasted emergency notifications."
+    },
+    "reports/{reportId}/messages": {
+      "schema": "Message",
+      "description": "Communication log for a specific report incident."
+    }
+  }
+}
